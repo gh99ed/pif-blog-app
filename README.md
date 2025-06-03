@@ -1,116 +1,133 @@
+# 📝 Blog Management System (GBLOG)
 
-# 📝 Blog Management System
-
-A full-stack MERN (MongoDB, Express, React, Node.js) blog platform built as a technical test submission for the PIF Full-Stack Developer position.
-
----
+A full-stack MERN (MongoDB, Express.js, React, Node.js) blog platform built as a technical test submission for the PIF Full-Stack Developer position.
 
 ## 📁 Folder Structure
 
-- `blog-client/`: React frontend using Tailwind and CSS
-- `blog-server/`: Node.js/Express backend with MongoDB integration
+- `blog-client/` – React frontend using Tailwind CSS, Radix UI, and React Router
+- `blog-server/` – Node.js backend with Express and MongoDB
 
 ---
 
 ## 🚀 Features
 
-### 🔐 Authentication & Security
+### 🔐 Authentication
 
-- JWT-based login and registration
-- Google OAuth 2.0 integration
-- Forgot password via email reset
-- reCAPTCHA v2 (Checkbox) to prevent bot abuse
-- Time-Based One-Time Password (TOTP) 2FA (Google Authenticator)
+- Standard **email/password** login and registration with:
+  - reCAPTCHA v2 (checkbox) verification
+  - JWT-based session authentication
+  - Validation feedback (invalid email, short password, etc.)
 
-### 📰 Blog Management
+- **Google OAuth 2.0**
+  - Seamless login/register via Google
+  - Profile logic disables password reset for Google-based accounts
 
-- Create, edit, delete blog posts
-- View all posts and individual post details
+- **Forgot Password Flow**
+  - reCAPTCHA verification
+  - Sends reset link to email
+  - Validates new password inputs
+  - Frontend handles all error/success states clearly
 
-### 💡 User Experience
+### 🔒 2FA (Two-Factor Authentication)
 
-- Responsive layout with modern and minimal UI
-- Conditional navigation based on auth status
-- Profile management with secure password update
-- Toast notifications with clean positioning and muted styling
-
----
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React, Tailwind CSS, Radix UI, React Hook Form, Zod
-- **Backend**: Node.js, Express, MongoDB (Mongoose)
-- **Authentication**: JWT, bcrypt, Google OAuth, reCAPTCHA, TOTP (2FA)
-- **Email Service**: Mailtrap SMTP
-- **Others**: React Toastify, Moment.js
+- Prompt to enable 2FA after login
+- Generates QR code (TOTP-compatible, e.g., Google Authenticator)
+- Input 6-digit code to activate
+- Backend stores and verifies TOTP secrets
+- "2FA setup complete" feedback shown on success
 
 ---
 
-## ⚙️ Setup Instructions
+## 🧾 Blog Management
 
-### 1. Clone the Repository
+### ✍️ Create Blog
+
+- Title (min 3 characters), content (min 10 characters), and author required
+- Shows validation errors
+- Confirmation toast on success
+
+### 📝 Edit Blog
+
+- Pre-fills data
+- Updates blog content and timestamps
+- Confirmation toast on update
+
+### 🗑 Delete Blog
+
+- Deletes blog from user list
+- Confirmation toast on deletion
+
+### 📋 View Blogs
+
+- **Latest Blogs Page** (public)
+  - Shows all blog cards with author, date, and preview content
+- **My Blogs Page** (authenticated)
+  - Table with title, author, timestamps, actions
+  - Edit / Delete available per blog
+
+---
+
+## 👤 User Profile Page
+
+- Shows **username** and **email**
+- Option to **change password** (unless using Google account)
+  - Requires current password
+  - Validates new password length
+  - Confirms password match
+  - Ensures new ≠ current password
+  - Shows relevant toasts and errors
+
+---
+
+## ✅ UX Details
+
+- Toasts on all actions (success/failure)
+- Form validations with user-friendly messages
+- Responsive layout
+- Protected routes and redirects
+- Custom branding with logo and color scheme
+
+---
+
+## 🖼 Screenshots
+
+- ✅ Login (with and without Google)
+- ✅ Registration with validation
+- ✅ reCAPTCHA-protected password reset
+- ✅ TOTP-based 2FA setup with QR
+- ✅ Create, edit, delete blog
+- ✅ Profile view and password change
+- ✅ Blog post full view and public access
+
+---
+
+## 👨‍💻 Developer Note
+
+> © 2025 | Designed & Developed by: **Developer Ghaid 💗**
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: React.js, Tailwind CSS, Radix UI, React Router
+- **Backend**: Node.js, Express.js, MongoDB, JWT, speakeasy (2FA), Nodemailer
+- **Security**: Google reCAPTCHA v2, TOTP 2FA, bcrypt hashing
+- **Auth**: JWT-based tokens + Google OAuth
+
+---
+
+## 📌 Installation
 
 ```bash
-git clone https://github.com/gh99ed/pif-blog-app.git
-cd pif-blog-app
-```
+# Clone the repo
+git clone https://github.com/your-username/blog-management-system.git
 
-### 2. Backend Setup
-
-```bash
+# Navigate to backend and install
 cd blog-server
 npm install
-cp .env.example .env
-# Fill in the environment variables
 npm start
-```
 
-### 3. Frontend Setup
-
-```bash
-cd blog-client
+# Navigate to frontend and install
+cd ../blog-client
 npm install
-cp .env.example .env
-# Fill in the environment variables
 npm start
-```
-
----
-
-## 🌐 Environment Variables
-
-### ✅ Backend (`blog-server/.env.example`)
-```env
-PORT=
-MONGO_URI=
-JWT_SECRET=
-GOOGLE_CLIENT_ID=
-MAIL_HOST=
-MAIL_PORT=
-MAIL_USER=
-MAIL_PASS=
-EMAIL_FROM=
-RECAPTCHA_SECRET_KEY=
-```
-
-### ✅ Frontend (`blog-client/.env.example`)
-```env
-REACT_APP_API_BASE_URL=
-REACT_APP_GOOGLE_CLIENT_ID=
-REACT_APP_RECAPTCHA_SITE_KEY=
-```
-
----
-
-## 🧪 Testing Notes
-
-- All key flows (login, signup, 2FA, password reset, blog CRUD) tested
-- reCAPTCHA tested for invalid and expired tokens
-- Mailtrap integration tested using email preview
-- Responsive on all devices
-
----
-
-## 📄 License
-
-This project is intended solely for technical evaluation purposes.
